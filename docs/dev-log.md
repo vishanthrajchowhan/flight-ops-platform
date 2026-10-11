@@ -6,3 +6,7 @@
 - Fixed Git Bash bracketed-paste issue via ~/.inputrc
 - Resolved diverged-branch push rejection with git reset --hard origin/main
 - Created repo and project folder structure
+- Wrote Terraform (providers, variables, main, outputs) and deployed RG + ADLS Gen2 (HNS enabled) with bronze/silver/gold containers
+- Hardened storage: TLS 1.2 minimum, private containers, public blob access blocked at account level
+- Used saved-plan workflow: plan -out=tfplan, then apply tfplan
+- Debugged empty .tf files and heredoc commands pasted into the editor instead of the terminal
