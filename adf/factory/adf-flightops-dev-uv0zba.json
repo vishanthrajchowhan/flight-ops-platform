@@ -1,0 +1,15 @@
+{
+	"name": "adf-flightops-dev-uv0zba",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4df9d259-25c4-4a96-900e-39f5f81a3fc9",
+		"tenantId": "a0798d89-6d24-4fb5-b1c6-d3d3cf159577"
+	}
+}

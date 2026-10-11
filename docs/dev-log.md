@@ -19,3 +19,9 @@
 - Created single-node cluster: 17.3 LTS, Photon off, Dedicated access, 20-min auto-terminate (0.75 DBU/h)
 - Unity Catalog: storage credential (managed identity) + external locations for bronze/silver/gold; file events intentionally not enabled
 - Wrote/read first Delta table to bronze via abfss path; merged PR #1 with squash merge
+- Terraform: Data Factory with system-assigned identity + Storage Blob Data Contributor on the lake
+- Fixed linked service type: azurerm web linked service = ADF "Web Table"; switched to custom HttpServer for file downloads
+- Built pl_ingest_bts_month (HTTP Binary + ZipDeflate -> ADLS Binary); fixed preserveZipFileNameAsFolder default creating extra subfolder
+- Built pl_backfill_bts_year (ForEach, batch 4) -> loaded all 12 months of 2025: 7,001,619 flights in bronze
+- Connected ADF to GitHub (root /adf, collaboration branch main, publish branch adf_publish)
+- Cleaned up stray recreated branch from Databricks; learned to check branch before committing

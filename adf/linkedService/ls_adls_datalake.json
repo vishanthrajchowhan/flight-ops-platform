@@ -1,0 +1,11 @@
+{
+	"name": "ls_adls_datalake",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://stflightopsdevuv0zba.dfs.core.windows.net/"
+		},
+		"annotations": []
+	}
+}

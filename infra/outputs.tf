@@ -21,3 +21,7 @@ output "databricks_workspace_url" {
 output "databricks_access_connector_id" {
   value = azurerm_databricks_access_connector.main.id
 }
+
+output "data_factory_name" {
+  value = azurerm_data_factory.main.name
+}

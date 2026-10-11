@@ -1,0 +1,78 @@
+{
+	"name": "pl_ingest_bts_month",
+	"properties": {
+		"activities": [
+			{
+				"name": "copy_bts_to_bronze",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings",
+							"compressionProperties": {
+								"type": "ZipDeflateReadSettings",
+								"preserveZipFileNameAsFolder": false
+							}
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_http_bts_zip",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": {
+								"value": "@concat('On_Time_Reporting_Carrier_On_Time_Performance_1987_present_', pipeline().parameters.year, '_', pipeline().parameters.month, '.zip')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_bronze_bts",
+						"type": "DatasetReference",
+						"parameters": {
+							"year": "@pipeline().parameters.year",
+							"month": "@pipeline().parameters.month"
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"year": {
+				"type": "string",
+				"defaultValue": "2025"
+			},
+			"month": {
+				"type": "string",
+				"defaultValue": "1"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-10-11T17:37:07Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
