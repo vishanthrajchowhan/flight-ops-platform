@@ -25,3 +25,12 @@
 - Built pl_backfill_bts_year (ForEach, batch 4) -> loaded all 12 months of 2025: 7,001,619 flights in bronze
 - Connected ADF to GitHub (root /adf, collaboration branch main, publish branch adf_publish)
 - Cleaned up stray recreated branch from Databricks; learned to check branch before committing
+
+## Phase 3–4: Medallion layers + orchestration
+- Bronze: Auto Loader (cloudFiles) → flightops_dev.bronze.bts_flights, 7,001,619 rows; rerun loads 0 (checkpoint idempotency)
+- Silver: typed/deduped flights, flight_key hash, MERGE upsert, liquid clustering; 4/4 DQ checks PASS
+- Gold: carrier_daily_performance, aa_hub_performance, delay_cause_breakdown, route_performance
+- Insight: DFW (AA's largest hub) worst at 66.2% dep on-time; 45.7% of AA delay minutes are late-aircraft (propagation)
+- Job flightops_medallion_daily: bronze → silver → gold from Git main on a shared single-node job cluster
+- Hit 4-vCPU quota: default job cluster requested 36 cores; switched to single node; DDSv4 family had 0 free, used Dav4
+- First end-to-end run: SUCCESS in 14m46s
