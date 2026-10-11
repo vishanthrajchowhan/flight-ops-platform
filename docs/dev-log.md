@@ -10,3 +10,5 @@
 - Hardened storage: TLS 1.2 minimum, private containers, public blob access blocked at account level
 - Used saved-plan workflow: plan -out=tfplan, then apply tfplan
 - Debugged empty .tf files and heredoc commands pasted into the editor instead of the terminal
+- Moved Terraform state to Azure Storage (versioned container) via terraform init -migrate-state; removed local state files
+- Added Key Vault (RBAC mode), granted myself Key Vault Secrets Officer, stored data lake access key as first secret
