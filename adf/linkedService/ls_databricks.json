@@ -1,0 +1,13 @@
+{
+	"name": "ls_databricks",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-7405617078769342.2.azuredatabricks.net",
+			"authentication": "MSI",
+			"workspaceResourceId": "/subscriptions/e4e4b62e-0bf2-47b3-8477-b75cf869d789/resourceGroups/rg-flightops-dev/providers/Microsoft.Databricks/workspaces/dbw-flightops-dev",
+			"existingClusterId": "1011-154753-hq8zgn8i"
+		}
+	}
+}
