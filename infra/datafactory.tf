@@ -18,12 +18,20 @@ resource "azurerm_role_assignment" "adf_storage" {
   principal_id         = azurerm_data_factory.main.identity[0].principal_id
 }
 
-# Linked service: BTS public download site (anonymous HTTP)
-resource "azurerm_data_factory_linked_service_web" "bts" {
-  name                = "ls_http_bts"
-  data_factory_id     = azurerm_data_factory.main.id
-  authentication_type = "Anonymous"
-  url                 = "https://transtats.bts.gov/PREZIP/"
+# Linked service: BTS public download site (HTTP connector, anonymous)
+# Note: azurerm_data_factory_linked_service_web creates a "Web Table" connector,
+# which cannot download files, so the generic custom service with type HttpServer is used.
+resource "azurerm_data_factory_linked_custom_service" "bts_http" {
+  name            = "ls_http_bts_files"
+  data_factory_id = azurerm_data_factory.main.id
+  type            = "HttpServer"
+  description     = "BTS PREZIP download site for On-Time Performance zip files"
+
+  type_properties_json = jsonencode({
+    url                               = "https://transtats.bts.gov/PREZIP/"
+    authenticationType                = "Anonymous"
+    enableServerCertificateValidation = true
+  })
 }
 
 # Linked service: our ADLS Gen2 data lake via managed identity
