@@ -41,3 +41,13 @@ resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "datalake"
   url                  = azurerm_storage_account.datalake.primary_dfs_endpoint
   use_managed_identity = true
 }
+
+# Let ADF's managed identity trigger Databricks jobs (keyless).
+# Note: Contributor on the workspace = workspace admin. Fine for dev; in prod,
+# register the identity as a Databricks service principal with only
+# "Can Manage Run" on the specific job (least privilege).
+resource "azurerm_role_assignment" "adf_databricks" {
+  scope                = azurerm_databricks_workspace.main.id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_data_factory.main.identity[0].principal_id
+}
