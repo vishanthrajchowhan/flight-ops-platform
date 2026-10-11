@@ -12,3 +12,10 @@
 - Debugged empty .tf files and heredoc commands pasted into the editor instead of the terminal
 - Moved Terraform state to Azure Storage (versioned container) via terraform init -migrate-state; removed local state files
 - Added Key Vault (RBAC mode), granted myself Key Vault Secrets Officer, stored data lake access key as first secret
+
+## 2026-10-11
+- Terraform: Databricks workspace (premium) + access connector with Storage Blob Data Contributor on the lake
+- Connected Databricks to GitHub via fine-grained PAT (single repo, Contents read/write) and Git folder
+- Created single-node cluster: 17.3 LTS, Photon off, Dedicated access, 20-min auto-terminate (0.75 DBU/h)
+- Unity Catalog: storage credential (managed identity) + external locations for bronze/silver/gold; file events intentionally not enabled
+- Wrote/read first Delta table to bronze via abfss path; merged PR #1 with squash merge
