@@ -1,0 +1,14 @@
+{
+	"name": "ls_http_bts_files",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "BTS PREZIP download site for On-Time Performance zip files",
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://transtats.bts.gov/PREZIP/",
+			"authenticationType": "Anonymous",
+			"enableServerCertificateValidation": true
+		},
+		"annotations": []
+	}
+}

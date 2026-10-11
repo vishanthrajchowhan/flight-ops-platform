@@ -1,0 +1,30 @@
+{
+	"name": "ds_http_bts_zip",
+	"properties": {
+		"description": "BTS monthly On-Time Performance zip, unzipped on read",
+		"linkedServiceName": {
+			"referenceName": "ls_http_bts_files",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				}
+			},
+			"compression": {
+				"type": "ZipDeflate"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
