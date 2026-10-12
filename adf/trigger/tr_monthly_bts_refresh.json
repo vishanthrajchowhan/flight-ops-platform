@@ -1,0 +1,29 @@
+{
+	"name": "tr_monthly_bts_refresh",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_monthly_bts_refresh",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Month",
+				"interval": 1,
+				"startTime": "2026-11-20T06:00:00",
+				"timeZone": "Dateline Standard Time",
+				"schedule": {
+					"monthDays": [
+						20
+					]
+				}
+			}
+		}
+	}
+}
