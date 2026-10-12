@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Terraform fmt & validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - name: Check formatting
+        run: terraform fmt -check -recursive
+      - name: Init (no remote state needed)
+        run: terraform init -backend=false
+      - name: Validate
+        run: terraform validate
+
+  notebooks:
+    name: Notebook & bundle config sanity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Notebooks are valid JSON
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad = []
+          for nb in pathlib.Path("src/notebooks").rglob("*.ipynb"):
+              try:
+                  json.loads(nb.read_text(encoding="utf-8"))
+              except Exception as e:
+                  bad.append(f"{nb}: {e}")
+          print("\n".join(bad) or "All notebooks parse")
+          sys.exit(1 if bad else 0)
+          PY
+      - name: Bundle YAML parses
+        run: |
+          pip install pyyaml --quiet
+          python -c "import yaml,glob; [yaml.safe_load(open(f)) for f in ['databricks.yml', *glob.glob('resources/*.yml')]]; print('YAML OK')"
