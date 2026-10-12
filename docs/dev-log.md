@@ -25,3 +25,11 @@
 - Built pl_backfill_bts_year (ForEach, batch 4) -> loaded all 12 months of 2025: 7,001,619 flights in bronze
 - Connected ADF to GitHub (root /adf, collaboration branch main, publish branch adf_publish)
 - Cleaned up stray recreated branch from Databricks; learned to check branch before committing
+
+## Phase 4 wrap: ADF → Databricks + flight_key fix
+- ADF pl_monthly_bts_refresh loaded Jan 2026 and triggered the medallion job end to end
+- Reconciliation: silver 1 row short of bronze (7,545,621 vs 7,545,622)
+- Root cause: F9 3237 on 2026-01-04, two JFK legs at 06:59 to different dests; flight_key omitted dest
+- Fix: added dest to the flight_key hash, rebuilt silver from bronze, reran job → 7,545,622 rows, 7,545,622 unique keys
+- Hit 4 vCPU regional quota: interactive cluster + job cluster competed; terminated interactive cluster before job run
+- ADF tr_monthly_bts_refresh: schedule trigger, 20th of each month 06:00 UTC; pipeline params default to "" so the run auto-computes month (now − 2)
