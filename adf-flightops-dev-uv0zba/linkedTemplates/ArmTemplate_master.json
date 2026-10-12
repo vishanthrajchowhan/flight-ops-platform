@@ -19,6 +19,14 @@
 			"type": "string",
 			"defaultValue": "https://transtats.bts.gov/PREZIP/"
 		},
+		"tr_monthly_bts_refresh_properties_pl_monthly_bts_refresh_parameters_year": {
+			"type": "string",
+			"defaultValue": "@formatDateTime(addToTime(trigger().scheduledTime, -2, 'Month'), 'yyyy')"
+		},
+		"tr_monthly_bts_refresh_properties_pl_monthly_bts_refresh_parameters_month": {
+			"type": "string",
+			"defaultValue": "@string(int(formatDateTime(addToTime(trigger().scheduledTime, -2, 'Month'), 'MM')))"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -54,6 +62,12 @@
 					},
 					"ls_http_bts_files_properties_typeProperties_url": {
 						"value": "[parameters('ls_http_bts_files_properties_typeProperties_url')]"
+					},
+					"tr_monthly_bts_refresh_properties_pl_monthly_bts_refresh_parameters_year": {
+						"value": "[parameters('tr_monthly_bts_refresh_properties_pl_monthly_bts_refresh_parameters_year')]"
+					},
+					"tr_monthly_bts_refresh_properties_pl_monthly_bts_refresh_parameters_month": {
+						"value": "[parameters('tr_monthly_bts_refresh_properties_pl_monthly_bts_refresh_parameters_month')]"
 					}
 				}
 			},

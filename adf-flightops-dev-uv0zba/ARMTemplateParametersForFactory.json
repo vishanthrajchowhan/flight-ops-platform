@@ -13,6 +13,12 @@
 		},
 		"ls_http_bts_files_properties_typeProperties_url": {
 			"value": "https://transtats.bts.gov/PREZIP/"
+		},
+		"tr_monthly_bts_refresh_properties_pl_monthly_bts_refresh_parameters_year": {
+			"value": "@formatDateTime(addToTime(trigger().scheduledTime, -2, 'Month'), 'yyyy')"
+		},
+		"tr_monthly_bts_refresh_properties_pl_monthly_bts_refresh_parameters_month": {
+			"value": "@string(int(formatDateTime(addToTime(trigger().scheduledTime, -2, 'Month'), 'MM')))"
 		}
 	}
 }
