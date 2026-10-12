@@ -4,12 +4,6 @@ bundle:
 include:
   - resources/*.yml
 
-targets:
-  dev:
-    default: true
-    workspace:
-      host: https://adb-7405617078769342.2.azuredatabricks.net
-
 sync:
   exclude:
     - infra/**
@@ -18,3 +12,16 @@ sync:
     - docs/**
     - tests/**
     - .github/**
+
+targets:
+  dev:
+    default: true
+    workspace:
+      host: https://adb-7405617078769342.2.azuredatabricks.net
+      # Pinned so every deployer (you or the CI service principal) shares one deployment
+      # state. Without this, the service principal would deploy to its own folder and
+      # create a duplicate job.
+      root_path: /Workspace/Users/lavudya.vishanth@gmail.com/.bundle/${bundle.name}/${bundle.target}
+    # The job runs with your Unity Catalog permissions no matter who deploys it
+    run_as:
+      user_name: lavudya.vishanth@gmail.com

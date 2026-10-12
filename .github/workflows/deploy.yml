@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "resources/**"
+      - "databricks.yml"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:   # adds a manual "Run workflow" button
+
+permissions:
+  contents: read
+
+concurrency:
+  group: databricks-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy Databricks bundle
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - name: Who am I
+        run: databricks current-user me
+      - name: Validate bundle
+        run: databricks bundle validate
+      - name: Deploy bundle
+        run: databricks bundle deploy
