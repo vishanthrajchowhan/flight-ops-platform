@@ -65,8 +65,14 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"year": "@variables('v_year')",
-						"month": "@variables('v_month')"
+						"year": {
+							"value": "@variables('v_year')",
+							"type": "Expression"
+						},
+						"month": {
+							"value": "@variables('v_month')",
+							"type": "Expression"
+						}
 					}
 				}
 			},
