@@ -1,0 +1,119 @@
+{
+	"name": "pl_monthly_bts_refresh",
+	"properties": {
+		"activities": [
+			{
+				"name": "set_year",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "v_year",
+					"value": {
+						"value": "@if(empty(pipeline().parameters.year), formatDateTime(addToTime(utcNow(), -2, 'Month'), 'yyyy'), pipeline().parameters.year)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "set_month",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "set_year",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "v_month",
+					"value": {
+						"value": "@if(empty(pipeline().parameters.month), string(int(formatDateTime(addToTime(utcNow(), -2, 'Month'), 'MM'))), pipeline().parameters.month)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "run_ingest",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "set_month",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_ingest_bts_month",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"year": "@variables('v_year')",
+						"month": "@variables('v_month')"
+					}
+				}
+			},
+			{
+				"name": "run_medallion_job",
+				"type": "DatabricksJob",
+				"dependsOn": [
+					{
+						"activity": "run_ingest",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"jobId": "577355577678064"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_databricks",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"year": {
+				"type": "string"
+			},
+			"month": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"v_year": {
+				"type": "String"
+			},
+			"v_month": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
