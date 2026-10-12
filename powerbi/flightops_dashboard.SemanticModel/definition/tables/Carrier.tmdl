@@ -1,0 +1,53 @@
+table Carrier
+	lineageTag: deb8b18a-ad2f-4174-a115-45ab9a131979
+
+	column carrier
+		lineageTag: 82fb7226-8601-4e9a-931f-db537b5ca345
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [carrier]
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_name
+		lineageTag: 45f7098f-58ed-406a-b4ba-ec0cc039d77a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [carrier_name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_type
+		lineageTag: 85cd38b7-bd0d-4ff4-8dfc-78674c738491
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [carrier_type]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Carrier = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "carrier", STRING, "carrier_name", STRING, "carrier_type", STRING,
+				    {
+				        {"AA", "American Airlines", "Mainline"},
+				        {"DL", "Delta Air Lines",   "Mainline"},
+				        {"UA", "United Airlines",   "Mainline"},
+				        {"WN", "Southwest Airlines","Mainline"},
+				        {"AS", "Alaska Airlines",   "Mainline"},
+				        {"B6", "JetBlue",           "Mainline"},
+				        {"NK", "Spirit Airlines",   "Mainline"},
+				        {"F9", "Frontier Airlines", "Mainline"},
+				        {"G4", "Allegiant Air",     "Mainline"},
+				        {"HA", "Hawaiian Airlines", "Mainline"},
+				        {"OO", "SkyWest Airlines",  "Regional"},
+				        {"YX", "Republic Airways",  "Regional"},
+				        {"MQ", "Envoy Air",         "Regional"},
+				        {"OH", "PSA Airlines",      "Regional"}
+				    }
+				)
+
+	annotation PBI_Id = d46dae6383ec40a086513ccfb49acd62
+
