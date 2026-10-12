@@ -1,0 +1,270 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "586f06d39532723a547d",
+  "position": {
+    "x": 20,
+    "y": 20,
+    "z": 0,
+    "height": 1040,
+    "width": 930,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "route_performance"
+                    }
+                  },
+                  "Property": "origin"
+                }
+              },
+              "queryRef": "route_performance.origin",
+              "nativeQueryRef": "origin",
+              "displayName": "Origin"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "route_performance"
+                    }
+                  },
+                  "Property": "dest"
+                }
+              },
+              "queryRef": "route_performance.dest",
+              "nativeQueryRef": "dest",
+              "displayName": "Dest"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "route_performance"
+                        }
+                      },
+                      "Property": "scheduled_flights"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(route_performance.scheduled_flights)",
+              "nativeQueryRef": "Sum of scheduled_flights",
+              "displayName": "Flights"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "route_performance"
+                        }
+                      },
+                      "Property": "on_time_pct"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(route_performance.on_time_pct)",
+              "nativeQueryRef": "Avg of on_time_pct",
+              "displayName": "On-time %"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "route_performance"
+                        }
+                      },
+                      "Property": "avg_arr_delay_min"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(route_performance.avg_arr_delay_min)",
+              "nativeQueryRef": "Avg of avg_arr_delay_min",
+              "displayName": "Avg arr delay (min)"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "route_performance"
+                        }
+                      },
+                      "Property": "cancel_pct"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(route_performance.cancel_pct)",
+              "nativeQueryRef": "Avg of cancel_pct",
+              "displayName": "Cancel %"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "route_performance"
+                        }
+                      },
+                      "Property": "distance_miles"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "Max(route_performance.distance_miles)",
+              "nativeQueryRef": "Max of distance_miles",
+              "displayName": "Miles"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "route_performance"
+                      }
+                    },
+                    "Property": "on_time_pct"
+                  }
+                },
+                "Function": 1
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'American Airlines routes, worst on-time first'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "88f0c902524ebc212508",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "route_performance"
+              }
+            },
+            "Property": "carrier"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "f",
+              "Entity": "route_performance",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "f"
+                          }
+                        },
+                        "Property": "carrier"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'AA'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

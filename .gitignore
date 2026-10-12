@@ -228,3 +228,8 @@ __marimo__/
 .env
 .databrickscfg
 tfplan
+
+# Power BI: local settings and cached data stay out of Git
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+*.pbix

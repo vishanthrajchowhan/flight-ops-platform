@@ -1,0 +1,79 @@
+table Date
+	lineageTag: 1bc5f1c3-7d99-4e25-92e9-d69dc285b57e
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: Long Date
+		lineageTag: 30365e64-8664-4ee4-8b52-f506c0b8b314
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		formatString: 0
+		lineageTag: 7937e2e0-f54d-4009-9f24-9482ebd6df60
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: a688db3e-3f7f-4529-a46a-9a3b30f9b5a4
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		lineageTag: 31ddbe8f-6855-4b30-890e-b6e3ca6688f8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year-Month
+		lineageTag: 49ff0405-0f7d-4dc5-b385-ab9c52cb7667
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year-Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Start'
+		formatString: Long Date
+		lineageTag: a3f65222-6345-4a34-91bb-20338894dc35
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Start]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Date = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS(
+				    CALENDAR(
+				        MIN(carrier_daily_performance[flight_date]),
+				        MAX(carrier_daily_performance[flight_date])
+				    ),
+				    "Year", YEAR([Date]),
+				    "Month Number", MONTH([Date]),
+				    "Month", FORMAT([Date], "MMM"),
+				    "Year-Month", FORMAT([Date], "yyyy-MM"),
+				    "Month Start", DATE(YEAR([Date]), MONTH([Date]), 1)
+				)
+
+	annotation PBI_Id = 0aa0d0e0eb3e476496434c84fdcdc777
+

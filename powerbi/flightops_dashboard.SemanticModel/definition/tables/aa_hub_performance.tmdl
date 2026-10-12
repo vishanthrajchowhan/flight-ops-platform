@@ -1,0 +1,84 @@
+table aa_hub_performance
+	lineageTag: 706bac4a-ad31-4b4d-887e-f052311e410f
+
+	column hub
+		dataType: string
+		lineageTag: e6136e00-258d-47af-bcb8-a5a4dfe70e4a
+		summarizeBy: none
+		sourceColumn: hub
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 58dc4dcb-e4b9-4a2b-a4ce-7d6b3305fe3c
+		summarizeBy: none
+		sourceColumn: month
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column scheduled_departures
+		dataType: int64
+		formatString: 0
+		lineageTag: 9965343c-a575-4d25-8a9e-3367dca4ab8c
+		summarizeBy: sum
+		sourceColumn: scheduled_departures
+
+		annotation SummarizationSetBy = Automatic
+
+	column dep_on_time_pct
+		dataType: double
+		lineageTag: 973691ca-6bee-48f3-af0d-1f121df7978c
+		summarizeBy: sum
+		sourceColumn: dep_on_time_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_dep_delay_min
+		dataType: double
+		lineageTag: 11163a61-2557-40f0-9d3a-5db87f2ff1a4
+		summarizeBy: sum
+		sourceColumn: avg_dep_delay_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_taxi_out_min
+		dataType: double
+		lineageTag: b2e239d4-b1c5-4519-882c-826bfd3e6372
+		summarizeBy: sum
+		sourceColumn: avg_taxi_out_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cancel_pct
+		dataType: double
+		lineageTag: d2fc013a-f923-43a6-a92a-5bea72351333
+		summarizeBy: sum
+		sourceColumn: cancel_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition aa_hub_performance = m
+		mode: import
+		source =
+				let
+				    Source = Databricks.Catalogs("adb-7405617078769342.2.azuredatabricks.net", "/sql/1.0/warehouses/d567911dcd06ee9d", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+				    flightops_dev_Database = Source{[Name="flightops_dev",Kind="Database"]}[Data],
+				    gold_Schema = flightops_dev_Database{[Name="gold",Kind="Schema"]}[Data],
+				    aa_hub_performance_Table = gold_Schema{[Name="aa_hub_performance",Kind="Table"]}[Data]
+				in
+				    aa_hub_performance_Table
+

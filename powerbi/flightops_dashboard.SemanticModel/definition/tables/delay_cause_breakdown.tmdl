@@ -1,0 +1,89 @@
+table delay_cause_breakdown
+	lineageTag: ed65820c-99fe-4cf7-bbf2-6bfa63742e61
+
+	column carrier
+		dataType: string
+		lineageTag: a27e1967-0427-4be2-917c-e5012518ac31
+		summarizeBy: none
+		sourceColumn: carrier
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f301c0e8-d351-4c63-857a-a061c5ca6c59
+		summarizeBy: none
+		sourceColumn: month
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column carrier_min
+		dataType: int64
+		formatString: 0
+		lineageTag: 494856f1-72df-4a08-9b9c-29c920b580e3
+		summarizeBy: sum
+		sourceColumn: carrier_min
+
+		annotation SummarizationSetBy = Automatic
+
+	column weather_min
+		dataType: int64
+		formatString: 0
+		lineageTag: ea021a49-0ef4-4a6a-b95e-8890a6d49f86
+		summarizeBy: sum
+		sourceColumn: weather_min
+
+		annotation SummarizationSetBy = Automatic
+
+	column nas_min
+		dataType: int64
+		formatString: 0
+		lineageTag: 61829e2d-27f2-4d1d-a188-02a609416762
+		summarizeBy: sum
+		sourceColumn: nas_min
+
+		annotation SummarizationSetBy = Automatic
+
+	column security_min
+		dataType: int64
+		formatString: 0
+		lineageTag: 8fba563b-6b41-47de-b69d-e9b2124f3c83
+		summarizeBy: sum
+		sourceColumn: security_min
+
+		annotation SummarizationSetBy = Automatic
+
+	column late_aircraft_min
+		dataType: int64
+		formatString: 0
+		lineageTag: 756a2e07-7695-4154-bae6-81b4b8009113
+		summarizeBy: sum
+		sourceColumn: late_aircraft_min
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_delay_min
+		dataType: int64
+		formatString: 0
+		lineageTag: 7ab51a54-a489-430b-b791-75567a1593af
+		summarizeBy: sum
+		sourceColumn: total_delay_min
+
+		annotation SummarizationSetBy = Automatic
+
+	partition delay_cause_breakdown = m
+		mode: import
+		source =
+				let
+				    Source = Databricks.Catalogs("adb-7405617078769342.2.azuredatabricks.net", "/sql/1.0/warehouses/d567911dcd06ee9d", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+				    flightops_dev_Database = Source{[Name="flightops_dev",Kind="Database"]}[Data],
+				    gold_Schema = flightops_dev_Database{[Name="gold",Kind="Schema"]}[Data],
+				    delay_cause_breakdown_Table = gold_Schema{[Name="delay_cause_breakdown",Kind="Table"]}[Data]
+				in
+				    delay_cause_breakdown_Table
+

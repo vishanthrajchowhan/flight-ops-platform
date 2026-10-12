@@ -1,0 +1,99 @@
+table _Measures
+	lineageTag: 4ac1a60a-443d-468b-a582-fb4b7ff8b669
+
+	measure 'Avg Arrival Delay (min)' =
+			
+			DIVIDE(
+			    SUMX(carrier_daily_performance,
+			         carrier_daily_performance[avg_arr_delay_min] * carrier_daily_performance[operated_flights]),
+			    [Operated Flights]
+			)
+		formatString: 0.0
+		lineageTag: ebf8b6b2-4c76-4ad0-b565-e5adb98e202b
+
+	measure 'Cancel %' =
+			
+			DIVIDE(SUM(carrier_daily_performance[cancelled_flights]), [Scheduled Flights])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: c9349ebe-00e8-4636-85cf-bbe4c12c70a8
+
+	measure 'Completion Factor %' = 1 - [Cancel %]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e7ccdd95-6bac-4ffd-8767-64cfa8747e87
+
+	measure 'Hub Avg Dep Delay (min)' =
+			
+			DIVIDE(
+			    SUMX(aa_hub_performance,
+			         aa_hub_performance[avg_dep_delay_min] * aa_hub_performance[scheduled_departures]),
+			    [Hub Departures]
+			)
+		formatString: 0.0
+		lineageTag: c4cf68f6-e079-4c85-a94d-c860c478cc5c
+
+	measure 'Hub Dep On-Time %' =
+			
+			DIVIDE(
+			    SUMX(aa_hub_performance,
+			         aa_hub_performance[dep_on_time_pct] * aa_hub_performance[scheduled_departures]),
+			    [Hub Departures]
+			) / 100
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 7a83838e-28e4-42f7-a7d4-5bd2ba4aa012
+
+	measure 'Hub Departures' = SUM(aa_hub_performance[scheduled_departures])
+		formatString: #,0
+		lineageTag: 1102190c-5c37-4c99-ac6f-4b1804938de3
+
+	measure 'On-Time %' =
+			
+			DIVIDE(SUM(carrier_daily_performance[on_time_flights]), [Operated Flights])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 607e52e1-5423-4600-8f90-7eb4db078795
+
+	measure 'On-Time % vs Industry' =
+			
+			[On-Time %] - CALCULATE([On-Time %], REMOVEFILTERS(Carrier))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0eef6992-2fc3-444d-9c3a-cf95fae0cafe
+
+	measure 'Operated Flights' = SUM(carrier_daily_performance[operated_flights])
+		formatString: #,0
+		lineageTag: 67742fa8-1ca9-4c59-9c74-f19d4ed87b40
+
+	measure 'Scheduled Flights' = SUM(carrier_daily_performance[scheduled_flights])
+		formatString: #,0
+		lineageTag: d6a8d57d-dc69-439d-9c2d-8fccf590606f
+
+	measure 'Total Delay Minutes' = SUM(delay_cause_breakdown[total_delay_min])
+		formatString: #,0
+		lineageTag: 58514d1e-2c16-40e5-81f3-b4df7ced1470
+
+	measure 'Late Aircraft Share %' = DIVIDE(SUM(delay_cause_breakdown[late_aircraft_min]), [Total Delay Minutes])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: a2841516-4b7b-4dcb-81e4-0ab9fb1e864e
+
+	measure 'Carrier Delay Share %' = DIVIDE(SUM(delay_cause_breakdown[carrier_min]), [Total Delay Minutes])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 64f6d8d5-793b-4d20-90ef-c0944538b1fe
+
+	measure 'NAS Delay Share %' = DIVIDE(SUM(delay_cause_breakdown[nas_min]), [Total Delay Minutes])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 99ef80e5-be61-4ec7-908e-d56e7a572232
+
+	measure 'Weather Delay Share %' = DIVIDE(SUM(delay_cause_breakdown[weather_min]), [Total Delay Minutes])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0cb2db86-bbd0-4f3b-951b-44e7884d1449
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,24 @@
+relationship e13ffc24-c1c6-9616-253f-7307015bf0f0
+	fromColumn: carrier_daily_performance.flight_date
+	toColumn: Date.Date
+
+relationship 1d43811f-6a8b-a6b4-8367-c137652d49a0
+	fromColumn: aa_hub_performance.month
+	toColumn: Date.Date
+
+relationship 4063e04c-6d6e-d60f-fc8c-14ca03d9fa71
+	fromColumn: delay_cause_breakdown.month
+	toColumn: Date.Date
+
+relationship 9e39a367-faa2-1f85-e553-3c543cc66e66
+	fromColumn: carrier_daily_performance.carrier
+	toColumn: Carrier.carrier
+
+relationship 2d68fe81-01e2-25da-b349-185f3962e343
+	fromColumn: delay_cause_breakdown.carrier
+	toColumn: Carrier.carrier
+
+relationship ec569d53-b48a-9819-0e97-ae59de5a7285
+	fromColumn: route_performance.carrier
+	toColumn: Carrier.carrier
+

@@ -1,0 +1,88 @@
+table route_performance
+	lineageTag: 5d10c9ba-a735-4e66-905b-23e71d41cc7d
+
+	column carrier
+		dataType: string
+		lineageTag: 8fa4cd4d-8f35-42d6-bb13-428b1645b5df
+		summarizeBy: none
+		sourceColumn: carrier
+
+		annotation SummarizationSetBy = Automatic
+
+	column origin
+		dataType: string
+		lineageTag: e4060bd1-d8d6-4dd3-94d2-8aae6f00567d
+		summarizeBy: none
+		sourceColumn: origin
+
+		annotation SummarizationSetBy = Automatic
+
+	column dest
+		dataType: string
+		lineageTag: 4470f6f1-15b2-4913-9e31-b77b2896e2cc
+		summarizeBy: none
+		sourceColumn: dest
+
+		annotation SummarizationSetBy = Automatic
+
+	column scheduled_flights
+		dataType: int64
+		formatString: 0
+		lineageTag: 44cc20ad-2331-4b57-91b3-47e5d673f20f
+		summarizeBy: sum
+		sourceColumn: scheduled_flights
+
+		annotation SummarizationSetBy = Automatic
+
+	column on_time_pct
+		dataType: double
+		lineageTag: 74d9db45-1a28-4f32-9e98-b87b8611e222
+		summarizeBy: sum
+		sourceColumn: on_time_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_arr_delay_min
+		dataType: double
+		lineageTag: 67fe451f-eca8-4078-bb1a-e83aab53c044
+		summarizeBy: sum
+		sourceColumn: avg_arr_delay_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cancel_pct
+		dataType: double
+		lineageTag: f5d263f6-4bf1-4b0f-9ff0-8f3c7a258a1a
+		summarizeBy: sum
+		sourceColumn: cancel_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column distance_miles
+		dataType: int64
+		formatString: 0
+		lineageTag: b34cd735-ada7-4905-9ea8-09e87119b39d
+		summarizeBy: sum
+		sourceColumn: distance_miles
+
+		annotation SummarizationSetBy = Automatic
+
+	partition route_performance = m
+		mode: import
+		source =
+				let
+				    Source = Databricks.Catalogs("adb-7405617078769342.2.azuredatabricks.net", "/sql/1.0/warehouses/d567911dcd06ee9d", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+				    flightops_dev_Database = Source{[Name="flightops_dev",Kind="Database"]}[Data],
+				    gold_Schema = flightops_dev_Database{[Name="gold",Kind="Schema"]}[Data],
+				    route_performance_Table = gold_Schema{[Name="route_performance",Kind="Table"]}[Data]
+				in
+				    route_performance_Table
+
+	annotation PBI_ResultType = Table
+
