@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-flightops-dev-uv0zba"
+		},
+		"ls_adls_datalake_properties_typeProperties_url": {
+			"value": "https://stflightopsdevuv0zba.dfs.core.windows.net/"
+		},
+		"ls_databricks_properties_typeProperties_existingClusterId": {
+			"value": "1011-154753-hq8zgn8i"
+		},
+		"ls_http_bts_files_properties_typeProperties_url": {
+			"value": "https://transtats.bts.gov/PREZIP/"
+		}
+	}
+}
