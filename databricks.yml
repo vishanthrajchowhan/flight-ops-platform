@@ -1,0 +1,20 @@
+bundle:
+  name: flightops_platform
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    default: true
+    workspace:
+      host: https://adb-7405617078769342.2.azuredatabricks.net
+
+sync:
+  exclude:
+    - infra/**
+    - adf/**
+    - powerbi/**
+    - docs/**
+    - tests/**
+    - .github/**
